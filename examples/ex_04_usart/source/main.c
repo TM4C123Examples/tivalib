@@ -1,13 +1,11 @@
-#include "board_tm4c123gxl.h"
+#include "uart_tm4c.h"
 #include "delay.h"
 
 int main(){
-    led_init();
+    UART0_init(9600);
     while(1){
-        led_set_color(LED_BLACK);
-        delay_ms(500);
-        led_set_color(LED_WHITE);
-        delay_ms(500);
+        UART0_sendChar('g');
+        UART0_sendChar('\n');
+        delay_ms(1000);
     }
 }
-
