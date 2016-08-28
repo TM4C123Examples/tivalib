@@ -14,9 +14,11 @@ extern "C" {
 void led_init(void);
 void buttons_init(void);
 
-int button_get_sw1();
-int button_get_sw2();
+int button_get_sw1(void);
+int button_get_sw2(void);
 void led_set_color(int color);
+
+void buttons_interupt_init(void (*callback_p)(int,int));
 
 #ifdef __cplusplus
 }
