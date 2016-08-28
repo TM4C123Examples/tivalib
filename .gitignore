@@ -4,9 +4,9 @@
 examples/*/mdk/*
 tests/gmock_test
 
-!examples/mdk/*.uvprojx
-!examples/mdk/*.uvoptx
-!examples/mdk/RTE
+!examples/*/mdk/*.uvprojx
+!examples/*/mdk/*.uvoptx
+!examples/*/mdk/RTE
 
 *.swp
 *.[oa]
