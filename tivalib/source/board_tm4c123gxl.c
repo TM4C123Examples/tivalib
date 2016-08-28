@@ -17,28 +17,19 @@ void buttons_init(void){
 void led_set_color(int color){
     ((uint32_t*)GPIOF)[LED_WHITE]=color;
 }
-int  get_button_sw1(int state){
+int  button_get_sw1(int state){
     if (state == 1){ 
-        if (((GPIOF->DATA&(0x1<<4))))
-            return 1;
-        else 
-            return 0;}
-    if (state == 0){
         if (((GPIOF->DATA&(0x1<<4))))
             return 0;
         else 
-            return 1;}        
-	}
+            return 1;}
+}
 
-int  get_button_sw2(int state){
+int  button_get_sw2(int state){
     if (state == 1){ 
-        if (((GPIOF->DATA&(0x1<<0))))
-            return 1;
-        else 
-            return 0;}
-    if (state == 0){
         if (((GPIOF->DATA&(0x1<<0))))
             return 0;
         else 
-            return 1;}        
-	}
+            return 1;}
+        
+}
