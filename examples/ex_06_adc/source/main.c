@@ -3,7 +3,7 @@
 #include "TM4C123.h"                    // Device header
 
 
-void ADC_init(void);
+
 void start_ADC(void);
 
 int ADC_samples[4];
@@ -13,12 +13,13 @@ int a=0;
 
 
 int main(){
+    void adc_init(void);
 	ADC_samples[0]=0;
 	ADC_samples[1]=0;
 	ADC_samples[2]=0;
 	ADC_samples[3]=0;
 	
-	ADC_init();
+	adc_init();
 	NVIC_EnableIRQ(ADC0SS0_IRQn); 
 	while(1){
 		if(ADC_sampleEnd){
@@ -33,28 +34,6 @@ void start_ADC(){
 	ADC_sampleEnd=0;
 }
 
-void ADC_init(){
-	/*Configuracion de Pines*/
-	SYSCTL->RCGCGPIO=(0x1<<1)|(0x1<<3)|(0x1<<4); //configuramos puertos B D E
-	SYSCTL->RCGCADC|=0x01;//habilitamos ADC0
-	
-	GPIOE->DEN&=~((0x1<<4)|(0x1<<5));// avilitamos los pines 
-	GPIOB->DEN&=~((0x1<<4)|(0x1<<5));// 
-	GPIOE->AMSEL|=(0x1<<4)|(0x1<<5);// utilizamos funcion alternativa
-	GPIOB->AMSEL|=(0x1<<4)|(0x1<<5);//
-	
-	//Configuracion ADC principal
-	
-	ADC0->ACTSS&=~(0xF);//desactivamos secuenciadores durantes la configuracion
-	ADC0->EMUX=0; //para trigger por sofware (default)
-	
-	//Configuracion del sequenciador
-	ADC0->SSMUX0=(0x8)|(0x9<<4)|(0xA<<8)|(0xB<<12);
-	ADC0->SSCTL0=(0x1<<14)|(0x1<<13);//Final de secuencia en muestra 3, y genera interrupcion
-	//Desenmacaramos interrupcion por secuenciador 0
-	ADC0->IM|=(0x1<<0);
-	ADC0->ACTSS|=(0x1<<0);//activamos secuenciador 0
-}
 
 void ADC0SS0_Handler(){
 	int i;
