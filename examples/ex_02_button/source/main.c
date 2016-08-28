@@ -1,13 +1,12 @@
 #include "board_tm4c123gxl.h"
 #include "delay.h"
-
 int main(){
-    led_init();
-    while(1){
+	led_init();
+    button_init();
+	while(1){
+    if (get_button(1))
+        led_set_color(LED_GREEN);
+    else
         led_set_color(LED_BLACK);
-        delay_ms(500);
-        led_set_color(LED_WHITE);
-        delay_ms(500);
     }
 }
-
