@@ -1,0 +1,12 @@
+/gcc/nbproject
+/gcc/objects
+/gcc/*.elf
+/mdk/*
+tests/gmock_test
+
+!/mdk/*.uvprojx
+!/mdk/*.uvoptx
+!/mdk/RTE
+
+*.swp
+*.[oa]
