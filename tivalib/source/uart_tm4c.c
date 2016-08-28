@@ -1,5 +1,5 @@
 #include "uart_tm4c.h"
-#include "TM4C123.h" 
+#include "TM4C123.h"
 
 #define UART_FR_TXFF            0x00000020  // UART Transmit FIFO Full
 #define UART_FR_RXFE            0x00000010  // UART Receive FIFO Empty
