@@ -7,7 +7,7 @@ int main(){
     while(1){
           led_set_color(0xF);
           delay_ms();
-          led_set_color(0xF);
+          led_set_color(0x0);
           delay_ms();
     }
 }

@@ -2,8 +2,8 @@
  * @file     system_TM4C.c
  * @brief    CMSIS Device System Source File for
  *           Texas Instruments TIVA TM4C123 Device Series
- * @version  V1.00
- * @date     27. March 2013
+ * @version  V1.01
+ * @date     19. March 2015
  *
  * @note
  *                                                             modified by Keil
@@ -265,7 +265,7 @@
   Define clocks
  *----------------------------------------------------------------------------*/
 #define XTALM       (16000000UL)            /* Main         oscillator freq */
-#define XTALI       (12000000UL)            /* Internal     oscillator freq */
+#define XTALI       (16000000UL)            /* Internal     oscillator freq */
 #define XTAL30K     (   30000UL)            /* Internal 30K oscillator freq */
 #define XTAL32K     (   32768UL)            /* external 32K oscillator freq */
 
