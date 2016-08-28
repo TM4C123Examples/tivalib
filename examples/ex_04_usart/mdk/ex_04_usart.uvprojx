@@ -395,6 +395,21 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\tivalib\source\delay.c</FilePath>
             </File>
+            <File>
+              <FileName>serial_stdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\serial_stdio.c</FilePath>
+            </File>
+            <File>
+              <FileName>serial_tm4c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\serial_tm4c.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_tm4c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\uart_tm4c.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
