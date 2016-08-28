@@ -14,7 +14,7 @@ extern "C" {
 void led_init(void);
 void button_init(void);
 
-int get_button(int state);
+int get_button_sw1(int state);
 void led_set_color(int color);
 
 #ifdef __cplusplus

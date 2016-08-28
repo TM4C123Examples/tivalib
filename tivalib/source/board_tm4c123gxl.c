@@ -14,7 +14,7 @@ void button_init(void){
 void led_set_color(int color){
     ((uint32_t*)GPIOF)[LED_WHITE]=color;
 }
-int  get_button(int state){
+int  get_button_sw1(int state){
     if (state == 1){ 
         if (((GPIOF->DATA&(0x1<<4))))
             return 1;
