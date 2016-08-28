@@ -3,7 +3,7 @@
  * Auto generated Run-Time-Environment Component Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'ex_02_button' 
+ * Project: 'ex_03_interrupt' 
  * Target:  'Target 1' 
  */
 
