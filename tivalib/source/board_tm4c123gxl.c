@@ -8,5 +8,5 @@ void led_init(void){
 }
 
 void led_set_color(int color){
-    GPIOF->DATA=color;
+    ((uint32_t*)GPIOF)[LED_WHITE]=color;
 }

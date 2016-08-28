@@ -4,9 +4,9 @@
 int main(){
     led_init();
     while(1){
-        led_set_color(0xF);
+        led_set_color(LED_BLACK);
         delay_ms(500);
-        led_set_color(0x0);
+        led_set_color(LED_WHITE);
         delay_ms(500);
     }
 }

@@ -390,6 +390,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\tivalib\source\board_tm4c123gxl.c</FilePath>
             </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\delay.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
