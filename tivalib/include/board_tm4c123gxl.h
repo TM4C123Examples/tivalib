@@ -12,9 +12,10 @@ extern "C" {
 #define LED_WHITE ((0x1<<1)|(0x1<<2)|(0x1<<3))
 
 void led_init(void);
-void button_init(void);
+void buttons_init(void);
 
 int get_button_sw1(int state);
+int get_button_sw2(int state);
 void led_set_color(int color);
 
 #ifdef __cplusplus
