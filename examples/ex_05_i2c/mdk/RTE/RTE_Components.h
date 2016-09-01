@@ -3,7 +3,7 @@
  * Auto generated Run-Time-Environment Component Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'ex_01_gpio' 
+ * Project: 'ex_05_i2c' 
  * Target:  'Target 1' 
  */
 

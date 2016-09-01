@@ -395,6 +395,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\tivalib\source\delay.c</FilePath>
             </File>
+            <File>
+              <FileName>i2c_tm4c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\i2c_tm4c.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
