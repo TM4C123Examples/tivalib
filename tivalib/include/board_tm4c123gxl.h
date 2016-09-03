@@ -18,7 +18,7 @@ int button_get_sw1(void);
 int button_get_sw2(void);
 void led_set_color(int color);
 void adc_init(void);
-
+int adc_read(void);    
 #ifdef __cplusplus
 }
 #endif
