@@ -1,7 +1,7 @@
 #include "TM4C123.h" // Device header
 #include "timer_pwm_tm4c.h"
 
-void set_timer_pwm(float duty_cycle){
+void timer_pwm_set(float duty_cycle){
 	if(duty_cycle<=0){
 		TIMER0->TAMATCHR=(50000-1); //ciclo de trabajo 0
 	}else if(duty_cycle>=100){
@@ -11,14 +11,14 @@ void set_timer_pwm(float duty_cycle){
 	}
 }
 
-int timer_pwm_init(void){
+int timer0_pwm_init(void){
 	SYSCTL->RCGCGPIO|=0x3F;//Habilitamos todos los GPIO
 	GPIOF->DEN|=0x1<<1;
 	GPIOF->DIR|=0x1<<1;
 	GPIOF->DATA&=~(0x1<<1);
 	SYSCTL->RCGCTIMER|=(0x1<<0);//Habilitamos Timer0;
 	//configuramos pin B6 como T0CCP0 para alimentar el counter 0;
-	GPIOB->DEN|=(0x1<<6);//funcines dgitales
+	GPIOB->DEN|=(0x1<<6);//funcines digitales
 	GPIOB->DIR|=(0x1<<6);//salida
 	GPIOB->AFSEL|=(0x1<<6);//modo alternativo
 	GPIOB->PCTL&=~(0xF<<24);
