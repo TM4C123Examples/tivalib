@@ -1,4 +1,4 @@
-#include "board_tm4c123gxl.h"
+#include "adc_tm4c.h"
 #include "delay.h"
 int sample=0;
 int main(){
@@ -6,6 +6,5 @@ int main(){
     while(1){
         sample=adc_read();
         delay_ms(500);
-        
     }
 }
