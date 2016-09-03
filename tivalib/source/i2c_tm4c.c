@@ -1,14 +1,14 @@
 #include "TM4C123.h"                    // Device header
 #include "i2c_tm4c.h"
 
-static int i2c_isBusy(void);
+int i2c_isBusy(void);
 
-void i2c_config(void){
+void i2c_init(void){
     SYSCTL->RCGCGPIO|=0x1<<1;//Turn on GPIOB (for I2C0)
     SYSCTL->RCGCI2C|=0x1;//Turn on I2C0
 
     //configure B2(SCL) and B3(SDA) for I2C signals
-    GPIOB->DEN|=(0x1<<2)|(0x1<<3); //digital typè
+    GPIOB->DEN|=(0x1<<2)|(0x1<<3); //digital type
     GPIOB->PUR|=(0x1<<2)|(0x1<<3); //pull ups
     GPIOB->ODR|=(0x1<<3); //open-drain output (only on SDA pin)
     GPIOB->AFSEL|=(0x1<<2)|(0x1<<3);//alternate functions
@@ -84,8 +84,7 @@ void i2c_readPacket(unsigned char  address_7b,unsigned char regAddress,
     }
 }
 
-
-static int i2c_isBusy(void){
+int i2c_isBusy(void){
     return (((I2C0->MCS)&(0x1<<0))>>0);//return busy bit
 }
 
