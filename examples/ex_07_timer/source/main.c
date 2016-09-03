@@ -8,7 +8,6 @@ int main(){
     timer0_init(500,TIMER_BASETIME_MS,timer0_callback);
     timer0_start();
     while(1){
-        led_set_color(LED_BLACK);
     }
 }
 
