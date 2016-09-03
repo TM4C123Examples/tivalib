@@ -10,7 +10,7 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060183::V5.06 update 2 (build 183)::ARMCC</pCCUsed>
+      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>TM4C123GH6PM</Device>
@@ -328,8 +328,6 @@
             <v6LangP>1</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
-            <v6Lto>0</v6Lto>
-            <v6WtE>0</v6WtE>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -401,6 +399,21 @@
               <FileName>adc_tm4c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\tivalib\source\adc_tm4c.c</FilePath>
+            </File>
+            <File>
+              <FileName>serial_stdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\serial_stdio.c</FilePath>
+            </File>
+            <File>
+              <FileName>serial_tm4c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\serial_tm4c.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_tm4c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\uart_tm4c.c</FilePath>
             </File>
           </Files>
         </Group>
