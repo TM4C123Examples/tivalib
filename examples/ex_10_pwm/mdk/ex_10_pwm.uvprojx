@@ -48,7 +48,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>ex_01_gpio</OutputName>
+          <OutputName>ex_10_pwm</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -380,11 +380,6 @@
               <FileType>1</FileType>
               <FilePath>..\source\main.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>tivalib</GroupName>
-          <Files>
             <File>
               <FileName>pwm_tm4c.c</FileName>
               <FileType>1</FileType>

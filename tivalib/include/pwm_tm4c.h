@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+void pwm0_0_init(void);
+
 #ifdef __cplusplus
 }
 #endif
