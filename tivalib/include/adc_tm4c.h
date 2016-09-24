@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 void adc_init(void);
-int adc_read(void);
+int adc_read(int select_channel);
 
 #ifdef __cplusplus
 }

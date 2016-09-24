@@ -12,4 +12,4 @@ void spi_write16(unsigned short data);
 }
 #endif
 
-#endif /* _ADC_TM4C_H */
+#endif /* _SPI_TM4C_H */
