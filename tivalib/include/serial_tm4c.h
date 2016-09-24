@@ -9,7 +9,13 @@ extern "C" {
 #endif
 
     extern Serial_t serial_uart0;
+		extern Serial_t serial_uart1;
+		extern Serial_t serial_uart2;
     extern Serial_t serial_uart3;
+		extern Serial_t serial_uart4;
+		extern Serial_t serial_uart5;
+		extern Serial_t serial_uart6;
+		extern Serial_t serial_uart7;
 
 #ifdef __cplusplus
 }

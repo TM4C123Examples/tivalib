@@ -5,11 +5,11 @@
 char myBuffer[BUFFER_SIZE];
 
 int main(){
-    UART0_init(9600);
-    serial_printf(serial_uart0,"\nEcho example\n");
+    UART2_init(9600);
+    serial_printf(serial_uart2,"\nEcho example\n");
     while(1){
-        serial_printf(serial_uart0,"Enter string to echo: \n");
-        serial_gets(serial_uart0,myBuffer,BUFFER_SIZE);
-        serial_printf(serial_uart0,">>%s\n",myBuffer);
+        serial_printf(serial_uart2,"Enter string to echo: \n");
+        serial_gets(serial_uart2,myBuffer,BUFFER_SIZE);
+        serial_printf(serial_uart2,">>%s\n",myBuffer);
     }
 }
