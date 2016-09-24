@@ -384,6 +384,13 @@
         </Group>
         <Group>
           <GroupName>tivalib</GroupName>
+          <Files>
+            <File>
+              <FileName>pwm_tm4c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\pwm_tm4c.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
