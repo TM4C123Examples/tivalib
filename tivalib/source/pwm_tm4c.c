@@ -14,7 +14,7 @@ void pwm0_AB_init(float frequency,int mode,float pwm_a_initial_dc,float pwm_b_in
         GPIOB->PCTL |= (((uint32_t)0x4)<<(24));//Connect Pin6 to alternate function 4 (m0pwm0)
     }
     //Configure PB7 as alternate function for M0PWM1
-    if((mode == PWM_A_ONLY)||(mode == PWM_A_AND_B)){
+    if((mode == PWM_B_ONLY)||(mode == PWM_A_AND_B)){
         SYSCTL->RCGCGPIO |= (0x1<<1);//Turn on GPIOB
         while(!(SYSCTL->PRGPIO & (0x1<<1)));
 
@@ -45,7 +45,7 @@ void pwm0_AB_init(float frequency,int mode,float pwm_a_initial_dc,float pwm_b_in
     if(mode == PWM_A_ONLY){
         PWM0->ENABLE |= 0x1<<0;
     }else if(mode == PWM_B_ONLY){
-        PWM0->ENABLE |= 0x1<<0;
+        PWM0->ENABLE |= 0x1<<1;
     }else{
         PWM0->ENABLE |= (0x1<<0)|(0x1<<1);
     }
