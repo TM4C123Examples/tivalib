@@ -96,34 +96,53 @@ void pwm_configure_channel(Custom_PWM0_Type* myPWM, int channel, float frequency
     myPWM->ENABLE |= 0x1<<channel;
 }
 
-void pwm0_AB_init(float frequency,int mode,float pwm_a_initial_dc,float pwm_b_initial_dc){
-    //Configure PB6 as alternate function for M0PWM0
-    if((mode == PWM_A_ONLY)||(mode == PWM_A_AND_B)){
-        gpio_peripheral_enable(GPIOB);
-        gpio_set_af(GPIOB,6,4);//Connect Pin6 to alternate function 4 (m0pwm0)
-    }
-    //Configure PB7 as alternate function for M0PWM1
-    if((mode == PWM_B_ONLY)||(mode == PWM_A_AND_B)){
-        gpio_peripheral_enable(GPIOB);
-        gpio_set_af(GPIOB,7,4);//Connect Pin7 to alternate function 4 (m0pwm1)
-    }
+typedef struct {
+    GPIOA_Type *gpio;
+    uint32_t pin;
+    uint32_t af;
+} pin_description_t;
+
+const pin_description_t pwm_pin_af[2][8] = {
+    {{GPIOB,6,4},{GPIOB,7,4},{GPIOB,4,4},{GPIOB,5,4},{GPIOE,4,4},{GPIOE,5,4},{GPIOC,4,4},{GPIOC,5,4}},
+    {{GPIOD,0,5},{GPIOD,1,5},{GPIOA,6,5},{GPIOA,7,5},{GPIOF,0,5},{GPIOF,1,5},{GPIOF,2,5},{GPIOF,3,5}}
+};
+
+void pwm_peripheral_enable(int peripheral_index){
+    SYSCTL->RCGCPWM |= (0x1<<peripheral_index);
+    while(!(SYSCTL->PRPWM & (0x1<<peripheral_index)));
+}
+
+void pwm_init(int peripheral_channel, float frequency, float initial_dc){
+    uint32_t peripheral_index = (peripheral_channel>>8) & 0x1;
+    uint32_t channel = peripheral_channel & 0xF;
+
+    const pin_description_t *pin_configuration = &(pwm_pin_af[peripheral_index][channel]);
+
+    gpio_peripheral_enable(pin_configuration->gpio);
+    gpio_set_af(pin_configuration->gpio,pin_configuration->pin,pin_configuration->af);
+
 
     SYSCTL->RCC |= (0x1<<20);// Use pwm div
     SYSCTL->RCC |= (0x7<<17);// divide system clock by 64
 
-    SYSCTL->RCGCPWM |= (0x1<<0);//Turn on PWM0
-    while(!(SYSCTL->PRPWM & (0x1<<0)));
+    pwm_peripheral_enable(peripheral_index);
+    Custom_PWM0_Type* myPWM = (void*)((peripheral_index)?PWM1:PWM0);
+    pwm_configure_channel(myPWM,channel,frequency,initial_dc);
+}
 
-    SystemCoreClockUpdate();
-    int load_value = (int)((SystemCoreClock/(64.0f*frequency)))-1;
-
+void pwm_set_dc(int peripheral_channel, float pwm_dc){
     Custom_PWM0_Type* myPWM = (Custom_PWM0_Type*)PWM0;
+    myPWM->generator[0].CMPA = (int)((myPWM->generator[0].LOAD + 1)* pwm_dc/100);
+}
 
+void pwm0_AB_init(float frequency,int mode,float pwm_a_initial_dc,float pwm_b_initial_dc){
+    //Configure PB6 as alternate function for M0PWM0
     if((mode == PWM_A_ONLY)||(mode == PWM_A_AND_B)){
-        pwm_configure_channel(myPWM,0,frequency,pwm_a_initial_dc);
+        pwm_init(0, frequency, pwm_a_initial_dc);
     }
+    //Configure PB7 as alternate function for M0PWM1
     if((mode == PWM_B_ONLY)||(mode == PWM_A_AND_B)){
-        pwm_configure_channel(myPWM,1,frequency,pwm_b_initial_dc);
+        pwm_init(1, frequency, pwm_b_initial_dc);
     }
 }
 
