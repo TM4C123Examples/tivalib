@@ -1,27 +1,6 @@
 #include "TM4C123.h"                    // Device header
 #include "pwm_tm4c.h"
-
-void gpio_set_af(GPIOA_Type *gpio,uint32_t pin,uint32_t af_select);
-void gpio_peripheral_enable(GPIOA_Type *gpio);
-int gpio_get_peripheral_index(GPIOA_Type *gpio);
-
-void gpio_set_af(GPIOA_Type *gpio,uint32_t pin,uint32_t af_select){
-        gpio->DEN |= (0x1<<pin);//digital functions
-        gpio->AFSEL |= (0x1<<pin);//alternate functions
-        gpio->PCTL &= ~(((uint32_t)0xF)<<(pin*4));
-        gpio->PCTL |= (((uint32_t)af_select)<<(pin*4));//Connect Pin6 to alternate function 4 (m0pwm0)
-}
-
-void gpio_peripheral_enable(GPIOA_Type *gpio){
-    int p_index = gpio_get_peripheral_index(gpio);
-    SYSCTL->RCGCGPIO |= (0x1<<p_index);
-    while(!(SYSCTL->PRGPIO & (0x1<<p_index)));
-}
-
-int gpio_get_peripheral_index(GPIOA_Type *gpio){
-    uint32_t address = (uint32_t) gpio;
-    return (address-GPIOA_BASE)/(GPIOB_BASE-GPIOA_BASE);
-}
+#include "gpio_config_tm4c.h"
 
 typedef struct {
     uint32_t  CTL;                            /*!< PWMX Control                                                          */
@@ -74,7 +53,26 @@ typedef struct {                                    /*!< PWM0 Structure         
   __IO uint32_t  PP;                                /*!< PWM Peripheral Properties                                             */
 } Custom_PWM0_Type;
 
-void pwm_configure_channel(Custom_PWM0_Type* myPWM, int channel, float frequency, float initial_dc){
+typedef struct {
+    GPIOA_Type *gpio;
+    uint32_t pin;
+    uint32_t af;
+} pin_description_t;
+
+const pin_description_t pwm_pin_af[2][8] = {
+    {{GPIOB,6,4},{GPIOB,7,4},{GPIOB,4,4},{GPIOB,5,4},{GPIOE,4,4},{GPIOE,5,4},{GPIOC,4,4},{GPIOC,5,4}},
+    {{GPIOD,0,5},{GPIOD,1,5},{GPIOA,6,5},{GPIOA,7,5},{GPIOF,0,5},{GPIOF,1,5},{GPIOF,2,5},{GPIOF,3,5}}
+};
+
+static void pwm_peripheral_enable(int peripheral_index);
+static void pwm_configure_channel(Custom_PWM0_Type* myPWM, int channel, float frequency, float initial_dc);
+
+static void pwm_peripheral_enable(int peripheral_index){
+    SYSCTL->RCGCPWM |= (0x1<<peripheral_index);
+    while(!(SYSCTL->PRPWM & (0x1<<peripheral_index)));
+}
+
+static void pwm_configure_channel(Custom_PWM0_Type* myPWM, int channel, float frequency, float initial_dc){
     SystemCoreClockUpdate();
     int load_value = (int)((SystemCoreClock/(64.0f*frequency)))-1;
     int gen_block = (channel>>1)&0xf;
@@ -94,22 +92,6 @@ void pwm_configure_channel(Custom_PWM0_Type* myPWM, int channel, float frequency
 
     myPWM->generator[gen_block].CTL = (0x1<<2)|(0x1<<0);
     myPWM->ENABLE |= 0x1<<channel;
-}
-
-typedef struct {
-    GPIOA_Type *gpio;
-    uint32_t pin;
-    uint32_t af;
-} pin_description_t;
-
-const pin_description_t pwm_pin_af[2][8] = {
-    {{GPIOB,6,4},{GPIOB,7,4},{GPIOB,4,4},{GPIOB,5,4},{GPIOE,4,4},{GPIOE,5,4},{GPIOC,4,4},{GPIOC,5,4}},
-    {{GPIOD,0,5},{GPIOD,1,5},{GPIOA,6,5},{GPIOA,7,5},{GPIOF,0,5},{GPIOF,1,5},{GPIOF,2,5},{GPIOF,3,5}}
-};
-
-void pwm_peripheral_enable(int peripheral_index){
-    SYSCTL->RCGCPWM |= (0x1<<peripheral_index);
-    while(!(SYSCTL->PRPWM & (0x1<<peripheral_index)));
 }
 
 void pwm_init(int peripheral_channel, float frequency, float initial_dc){
@@ -147,24 +129,5 @@ void pwm_set_dc(int peripheral_channel, float pwm_dc){
     }else{
         myPWM->generator[gen_block].CMPA = (int)((load_value+1) * pwm_dc/100);
     }
-}
-
-void pwm0_AB_init(float frequency,int mode,float pwm_a_initial_dc,float pwm_b_initial_dc){
-    //Configure PB6 as alternate function for M0PWM0
-    if((mode == PWM_A_ONLY)||(mode == PWM_A_AND_B)){
-        pwm_init(0, frequency, pwm_a_initial_dc);
-    }
-    //Configure PB7 as alternate function for M0PWM1
-    if((mode == PWM_B_ONLY)||(mode == PWM_A_AND_B)){
-        pwm_init(1, frequency, pwm_b_initial_dc);
-    }
-}
-
-void pwm0_A_set_dc(float pwm_dc){
-    pwm_set_dc(0,pwm_dc);
-}
-
-void pwm0_B_set_dc(float pwm_dc){
-    pwm_set_dc(1,pwm_dc);
 }
 
