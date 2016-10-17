@@ -79,19 +79,19 @@ void pwm_configure_channel(Custom_PWM0_Type* myPWM, int channel, float frequency
     int load_value = (int)((SystemCoreClock/(64.0f*frequency)))-1;
     int gen_block = (channel>>1)&0xf;
     int is_channel_b = channel&0x1;
-    
+
     myPWM->generator[gen_block].CTL = 0;
     myPWM->generator[gen_block].GENA = (0x3<<6)|(0x2<<0);
     myPWM->generator[gen_block].GENB = (0x3<<10)|(0x2<<0);
     myPWM->generator[gen_block].LOAD = load_value;
 
-    
+
     if(is_channel_b){
         myPWM->generator[gen_block].CMPB = (int)((load_value+1) * initial_dc/100);
     }else{
         myPWM->generator[gen_block].CMPA = (int)((load_value+1) * initial_dc/100);
     }
-    
+
     myPWM->generator[gen_block].CTL = (0x1<<2)|(0x1<<0);
     myPWM->ENABLE |= 0x1<<channel;
 }
@@ -139,9 +139,9 @@ void pwm_set_dc(int peripheral_channel, float pwm_dc){
     int is_channel_b = channel&0x1;
 
     Custom_PWM0_Type* myPWM = (void*)((peripheral_index)?PWM1:PWM0);
-    
+
     load_value = myPWM->generator[gen_block].LOAD;
-    
+
     if(is_channel_b){
         myPWM->generator[gen_block].CMPB = (int)((load_value+1) * pwm_dc/100);
     }else{
