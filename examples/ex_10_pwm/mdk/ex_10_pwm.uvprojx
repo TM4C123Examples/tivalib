@@ -385,6 +385,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\tivalib\source\pwm_tm4c.c</FilePath>
             </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tivalib\source\delay.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
