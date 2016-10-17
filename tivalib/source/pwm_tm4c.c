@@ -131,8 +131,22 @@ void pwm_init(int peripheral_channel, float frequency, float initial_dc){
 }
 
 void pwm_set_dc(int peripheral_channel, float pwm_dc){
-    Custom_PWM0_Type* myPWM = (Custom_PWM0_Type*)PWM0;
-    myPWM->generator[0].CMPA = (int)((myPWM->generator[0].LOAD + 1)* pwm_dc/100);
+    uint32_t peripheral_index = (peripheral_channel>>8) & 0x1;
+    uint32_t channel = peripheral_channel & 0xF;
+
+    int load_value;
+    int gen_block = (channel>>1)&0xf;
+    int is_channel_b = channel&0x1;
+
+    Custom_PWM0_Type* myPWM = (void*)((peripheral_index)?PWM1:PWM0);
+    
+    load_value = myPWM->generator[gen_block].LOAD;
+    
+    if(is_channel_b){
+        myPWM->generator[gen_block].CMPB = (int)((load_value+1) * pwm_dc/100);
+    }else{
+        myPWM->generator[gen_block].CMPA = (int)((load_value+1) * pwm_dc/100);
+    }
 }
 
 void pwm0_AB_init(float frequency,int mode,float pwm_a_initial_dc,float pwm_b_initial_dc){
@@ -147,12 +161,10 @@ void pwm0_AB_init(float frequency,int mode,float pwm_a_initial_dc,float pwm_b_in
 }
 
 void pwm0_A_set_dc(float pwm_dc){
-    Custom_PWM0_Type* myPWM = (Custom_PWM0_Type*)PWM0;
-    myPWM->generator[0].CMPA = (int)((myPWM->generator[0].LOAD + 1)* pwm_dc/100);
+    pwm_set_dc(0,pwm_dc);
 }
 
 void pwm0_B_set_dc(float pwm_dc){
-    Custom_PWM0_Type* myPWM = (Custom_PWM0_Type*)PWM0;
-    myPWM->generator[0].CMPB = (int)((myPWM->generator[0].LOAD + 1)* pwm_dc/100);
+    pwm_set_dc(1,pwm_dc);
 }
 
